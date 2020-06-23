@@ -1,0 +1,133 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, REST.Types,
+  REST.Client, Data.Bind.Components, Data.Bind.ObjectScope, uclsAPI, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Datasnap.DBClient, uclsClasses, JvAppXMLStorage;
+
+type
+  TForm1 = class(TForm)
+    pnlPrinc: TPanel;
+    pnlBotoes: TPanel;
+    Button1: TButton;
+    Bevel1: TBevel;
+    Label1: TLabel;
+    edtNome: TEdit;
+    pnlGrid: TPanel;
+    Label2: TLabel;
+    edtId: TEdit;
+    Label3: TLabel;
+    edtCPF: TEdit;
+    Label4: TLabel;
+    edtTel: TEdit;
+    Label5: TLabel;
+    edtBairro: TEdit;
+    Label6: TLabel;
+    edtLogadouro: TEdit;
+    CEP: TLabel;
+    edtCEP: TEdit;
+    Cidade: TLabel;
+    edtLocal: TEdit;
+    Label7: TLabel;
+    edtUF: TEdit;
+    Label8: TLabel;
+    edtEmail: TEdit;
+    cdsCliente: TClientDataSet;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    cdsClienteNOME: TStringField;
+    cdsClienteID: TStringField;
+    cdsClienteCPF: TStringField;
+    cdsClienteTEL: TStringField;
+    cdsClienteEMAIL: TStringField;
+    cdsClienteCEP: TStringField;
+    cdsClienteLOGRADOURO: TStringField;
+    cdsClienteBAIRRO: TStringField;
+    cdsClienteCIDADE: TStringField;
+    cdsClienteUF: TStringField;
+    procedure edtCEPExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    GetDadosAPI: IRestAPI;
+    EnviarEmail : IEnviarEmail;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  lList : TStrings;
+  Cliente : TClient;
+  Storage: TJvAppXMLFileStorage;
+begin
+  lList := TStringList.Create;
+  Cliente := TClient.Create;
+  Storage  := TJvAppXMLFileStorage.Create(nil);
+
+  try
+    Cliente.Nome       := edtNome.Text;
+    Cliente.Identidade := edtId.Text;
+    Cliente.CPF        := edtCPF.Text;
+    Cliente.Telefone   := edtTel.Text;
+    Cliente.Email      := edtEmail.Text;
+
+    if Assigned(GetDadosApi.CEP) then
+      Cliente.CEP := GetDadosApi.CEP;
+
+    Storage.WritePersistent('', Cliente);
+    Storage.Xml.SaveToFile('Cliente.xml');
+
+    lList.Add('Ola!');
+    lList.Add('Segue o arquivo em anexo!');
+    lList.Add('');
+    lList.Add('Att,');
+    lList.Add('');
+    lList.Add('Brenno');
+
+    EnviarEmail.Enviar('Envio Cliente XML', 'brenno.faneco@gmail.com', 'Cliente.xml', lList);
+  finally
+    Storage.Free;
+    lList.Free;
+    Cliente.Free;
+  end;
+
+end;
+
+procedure TForm1.edtCEPExit(Sender: TObject);
+begin
+  if edtCEP.Text <> EmptyStr then
+  begin
+    GetDadosAPI.GetDados(edtCEP.Text);
+    if GetDadosApi.CEP.CEP <> EmptyStr then
+    begin
+      edtLogadouro.text := GetDadosApi.CEP.Logradouro;
+    end;
+  end;
+
+
+
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  GetDadosAPI := TRESTAPI.Create('https://viacep.com.br/ws/', 'json/');
+  EnviarEmail := TEnviarEmail.Create;
+
+end;
+
+end.
+

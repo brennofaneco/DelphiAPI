@@ -1,0 +1,345 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Cadastro de Cliente'
+  ClientHeight = 368
+  ClientWidth = 556
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlPrinc: TPanel
+    Left = 0
+    Top = 0
+    Width = 556
+    Height = 337
+    Align = alClient
+    TabOrder = 0
+    ExplicitTop = -5
+    ExplicitWidth = 694
+    ExplicitHeight = 327
+    object Label1: TLabel
+      Left = 15
+      Top = 11
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+    end
+    object Label2: TLabel
+      Left = 231
+      Top = 11
+      Width = 52
+      Height = 13
+      Caption = 'Identidade'
+    end
+    object Label3: TLabel
+      Left = 324
+      Top = 11
+      Width = 19
+      Height = 13
+      Caption = 'CPF'
+    end
+    object Label4: TLabel
+      Left = 447
+      Top = 10
+      Width = 42
+      Height = 13
+      Caption = 'Telefone'
+    end
+    object Label5: TLabel
+      Left = 15
+      Top = 107
+      Width = 28
+      Height = 13
+      Caption = 'Bairro'
+    end
+    object Label6: TLabel
+      Left = 339
+      Top = 59
+      Width = 55
+      Height = 13
+      Caption = 'Logradouro'
+    end
+    object CEP: TLabel
+      Left = 231
+      Top = 59
+      Width = 19
+      Height = 13
+      Caption = 'CEP'
+    end
+    object Cidade: TLabel
+      Left = 136
+      Top = 107
+      Width = 33
+      Height = 13
+      Caption = 'Cidade'
+    end
+    object Label7: TLabel
+      Left = 257
+      Top = 107
+      Width = 13
+      Height = 13
+      Caption = 'UF'
+    end
+    object Label8: TLabel
+      Left = 15
+      Top = 59
+      Width = 24
+      Height = 13
+      Caption = 'Email'
+    end
+    object edtNome: TEdit
+      Left = 15
+      Top = 26
+      Width = 201
+      Height = 21
+      TabOrder = 0
+      Text = 'edtNome'
+    end
+    object pnlGrid: TPanel
+      Left = 1
+      Top = 178
+      Width = 554
+      Height = 158
+      Align = alBottom
+      TabOrder = 10
+      ExplicitTop = 168
+      ExplicitWidth = 658
+      object DBGrid1: TDBGrid
+        Left = 1
+        Top = 1
+        Width = 552
+        Height = 156
+        Align = alClient
+        DataSource = DataSource1
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+      end
+    end
+    object edtId: TEdit
+      Left = 231
+      Top = 26
+      Width = 80
+      Height = 21
+      TabOrder = 1
+      Text = 'edtNome'
+    end
+    object edtCPF: TEdit
+      Left = 324
+      Top = 26
+      Width = 108
+      Height = 21
+      TabOrder = 2
+      Text = 'edtNome'
+    end
+    object edtTel: TEdit
+      Left = 447
+      Top = 26
+      Width = 93
+      Height = 21
+      TabOrder = 3
+      Text = 'edtNome'
+    end
+    object edtBairro: TEdit
+      Left = 15
+      Top = 122
+      Width = 115
+      Height = 21
+      TabOrder = 7
+      Text = 'edtNome'
+    end
+    object edtLogadouro: TEdit
+      Left = 339
+      Top = 74
+      Width = 201
+      Height = 21
+      TabOrder = 6
+      Text = 'edtNome'
+    end
+    object edtCEP: TEdit
+      Left = 231
+      Top = 74
+      Width = 95
+      Height = 21
+      TabOrder = 5
+      OnExit = edtCEPExit
+    end
+    object edtLocal: TEdit
+      Left = 136
+      Top = 122
+      Width = 115
+      Height = 21
+      TabOrder = 8
+      Text = 'edtNome'
+    end
+    object edtUF: TEdit
+      Left = 257
+      Top = 122
+      Width = 33
+      Height = 21
+      TabOrder = 9
+      Text = 'edtNome'
+    end
+    object edtEmail: TEdit
+      Left = 15
+      Top = 74
+      Width = 201
+      Height = 21
+      TabOrder = 4
+      Text = 'edtNome'
+    end
+  end
+  object pnlBotoes: TPanel
+    Left = 0
+    Top = 337
+    Width = 556
+    Height = 31
+    Align = alBottom
+    TabOrder = 1
+    object Bevel1: TBevel
+      Left = 390
+      Top = 1
+      Width = 10
+      Height = 29
+      Align = alRight
+      Shape = bsSpacer
+      ExplicitLeft = 360
+      ExplicitTop = -8
+      ExplicitHeight = 50
+    end
+    object Button1: TButton
+      Left = 400
+      Top = 1
+      Width = 155
+      Height = 29
+      Align = alRight
+      Caption = 'Enviar Email'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+  end
+  object cdsCliente: TClientDataSet
+    PersistDataPacket.Data = {
+      180100009619E0BD01000000180000000A0000000000030000001801044E4F4D
+      4501004900000001000557494454480200020064000249440100490000000100
+      055749445448020002000F000343504601004900000001000557494454480200
+      020014000354454C0100490000000100055749445448020002000F0005454D41
+      494C010049000000010005574944544802000200640003434550010049000000
+      0100055749445448020002000F000A4C4F475241444F55524F01004900000001
+      000557494454480200020064000642414952524F010049000000010005574944
+      5448020002006400064349444144450100490000000100055749445448020002
+      00320002554601004900000001000557494454480200020002000000}
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'NOME'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'ID'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'CPF'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'TEL'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'EMAIL'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'CEP'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'LOGRADOURO'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'BAIRRO'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'CIDADE'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'UF'
+        DataType = ftString
+        Size = 2
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 488
+    Top = 240
+    object cdsClienteNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsClienteID: TStringField
+      FieldName = 'ID'
+      Size = 15
+    end
+    object cdsClienteCPF: TStringField
+      FieldName = 'CPF'
+    end
+    object cdsClienteTEL: TStringField
+      FieldName = 'TEL'
+      Size = 15
+    end
+    object cdsClienteEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 100
+    end
+    object cdsClienteCEP: TStringField
+      FieldName = 'CEP'
+      Size = 15
+    end
+    object cdsClienteLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 100
+    end
+    object cdsClienteBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 100
+    end
+    object cdsClienteCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 50
+    end
+    object cdsClienteUF: TStringField
+      FieldName = 'UF'
+      Size = 2
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = cdsCliente
+    Left = 488
+    Top = 176
+  end
+end

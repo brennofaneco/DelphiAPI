@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2020/06/23 01:27:43.579,=D:\EmbarcadeiroProject\Unit1.pas</Transaction>
+    <Transaction>2020/06/23 01:28:20.255,D:\Projects\InfoSistemas\uPrincipal.pas=D:\EmbarcadeiroProject\Unit1.pas</Transaction>
+    <Transaction>2020/06/23 01:28:20.255,D:\Projects\InfoSistemas\uPrincipal.dfm=D:\EmbarcadeiroProject\Unit1.dfm</Transaction>
+    <Transaction>2020/06/23 01:28:29.241,D:\Projects\InfoSistemas\InfoApi.dproj=D:\EmbarcadeiroProject\Project4.dproj</Transaction>
+    <Transaction>2020/06/23 01:56:26.172,=D:\Projects\InfoSistemas\Unit1.pas</Transaction>
+    <Transaction>2020/06/23 01:56:32.201,D:\Projects\InfoSistemas\uclsAPI.pas=D:\Projects\InfoSistemas\Unit1.pas</Transaction>
+    <Transaction>2020/06/23 02:23:33.116,=D:\Projects\InfoSistemas\Unit1.pas</Transaction>
+    <Transaction>2020/06/23 02:23:51.408,D:\Projects\InfoSistemas\uclsClasses.pas=D:\Projects\InfoSistemas\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

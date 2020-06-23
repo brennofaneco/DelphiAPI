@@ -1,0 +1,152 @@
+unit uclsClasses;
+
+interface
+uses IdSMTP, IdSSLOpenSSL, IdMessage, IdText, IdAttachmentFile, IdExplicitTLSClientServerBase, System.StrUtils,
+  System.Classes;
+type
+  IEnviarEmail = interface
+    ['{DAB06D13-6455-4EAB-9424-EFD1A2C2E7A2}']
+    procedure Enviar(AAssunto, ADestino, AAnexo: String; ACorpo: TStrings);
+  end;
+
+  TEnviarEmail = class(TInterfacedObject, IEnviarEmail)
+    private
+
+    public
+     procedure Enviar(AAssunto, ADestino, AAnexo: String; ACorpo: TStrings);
+  end;
+
+  TCEP = class(TPersistent)
+  private
+    FCEP         : String;
+    FLogradouro  : String;
+    FComplemento : String;
+    FBairro      : string;
+    FLocalidade  : string;
+    FUF          : String;
+    FUnidade     : String;
+    FIBGE        : String;
+    FGIA         : String;
+
+  published
+    property CEP         : String read FCEP write FCEP;
+    property Logradouro  : String read FLogradouro;
+    property Complemento : String read FComplemento;
+    property Bairro      : String read FBairro;
+    property Localidade  : string read FLocalidade;
+    property UF          : String read FUF;
+    property Unidade     : String read FUnidade;
+    property IBGE        : String read FIBGE;
+    property GIA         : String read FGIA;
+  end;
+
+  TClient = class(TPersistent)
+  private
+    FNome       : String;
+    FIdentidade : String;
+    FCPF        : String;
+    FEmail      : String;
+    FTelefone   : String;
+    FCEP        : TCEP;
+  published
+    property Nome       : String read FNome       write FNome;
+    property Identidade : String read FIdentidade write FIdentidade;
+    property CPF        : String read FCPF        write FCPF;
+    property Email      : String read FEmail      write FEmail;
+    property Telefone   : String read FTelefone   write FTelefone;
+    property CEP        : TCEP   read FCEP        write FCEP;
+
+
+  end;
+
+implementation
+
+uses
+  System.SysUtils, Vcl.Dialogs;
+
+{ TEnviarEmail }
+
+procedure TEnviarEmail.Enviar(AAssunto, ADestino, AAnexo: String;
+  ACorpo: TStrings);
+var
+  IdSSLIOHandlerSocket: TIdSSLIOHandlerSocketOpenSSL;
+  IdSMTP: TIdSMTP;
+  IdMessage: TIdMessage;
+  IdText: TIdText;
+  sAnexo: string;
+
+begin
+  // instanciação dos objetos
+  IdSSLIOHandlerSocket := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  IdSMTP := TIdSMTP.Create(nil);
+  IdMessage := TIdMessage.Create(nil);
+
+  try
+    // Configuração do protocolo SSL (TIdSSLIOHandlerSocketOpenSSL)
+    IdSSLIOHandlerSocket.SSLOptions.Method := sslvSSLv23;
+    IdSSLIOHandlerSocket.SSLOptions.Mode := sslmClient;
+
+    // Configuração do servidor SMTP (TIdSMTP)
+    IdSMTP.IOHandler := IdSSLIOHandlerSocket;
+    IdSMTP.UseTLS    := utUseImplicitTLS;
+    IdSMTP.AuthType  := satDefault;
+    IdSMTP.Port      := 465;
+    IdSMTP.Host      := 'smtp.gmail.com';
+    IdSMTP.Username  := 'brennox@gmail.com';
+    IdSMTP.Password  := 'senha';
+
+    // Configuração da mensagem (TIdMessage)
+    IdMessage.From.Address           := 'brennox@gmail.com';
+    IdMessage.From.Name              := 'Brenno';
+    IdMessage.ReplyTo.EMailAddresses := IdMessage.From.Address;
+    IdMessage.Recipients.Add.Text    := ADestino;
+    IdMessage.Subject                := AAssunto;
+    IdMessage.Encoding               := meMIME;
+
+    // Configuração do corpo do email (TIdText)
+    IdText := TIdText.Create(IdMessage.MessageParts);
+    IdText.Body.Add('Cadastro em Anexo');
+    IdText.ContentType := 'text/plain; charset=iso-8859-1';
+
+    if FileExists(AAnexo) then
+    begin
+      TIdAttachmentFile.Create(IdMessage.MessageParts, AAnexo);
+    end;
+
+    // Conexão e autenticação
+    try
+      IdSMTP.Connect;
+      IdSMTP.Authenticate;
+    except
+      on E:Exception do
+      begin
+        MessageDlg('Erro na conexão ou autenticação: ' +
+          E.Message, mtWarning, [mbOK], 0);
+        Exit;
+      end;
+    end;
+
+    // Envio da mensagem
+    try
+      IdSMTP.Send(IdMessage);
+      MessageDlg('Mensagem enviada com sucesso!', mtInformation, [mbOK], 0);
+    except
+      On E:Exception do
+      begin
+        MessageDlg('Erro ao enviar a mensagem: ' +
+          E.Message, mtWarning, [mbOK], 0);
+      end;
+    end;
+  finally
+    // desconecta do servidor
+    IdSMTP.Disconnect;
+    // liberação da DLL
+    UnLoadOpenSSLLibrary;
+    // liberação dos objetos da memória
+    FreeAndNil(IdMessage);
+    FreeAndNil(IdSSLIOHandlerSocket);
+    FreeAndNil(IdSMTP);
+  end;
+end;
+
+end.
